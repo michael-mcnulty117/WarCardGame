@@ -65,8 +65,7 @@ def compareCards(playerCard, compCard):
 	convertedCompCardToCompare = convertFaceCard(compCardToCompare)
 
 	if convertedPlayerCardToCompare == convertedCompCardToCompare:
-		pass
-		# add how to handle a tie here.
+		return 'noWinner'
 	elif convertedPlayerCardToCompare > convertedCompCardToCompare:
 		return 'playerWinner'
 	else:
@@ -111,7 +110,7 @@ def playHand(playerCard, compCard, playerCardCollection, compCardCollection, pCa
 	compCardString = ''.join(str(card) for card in compCard)
 	
     # Display each players card.
-	print('Computer:', compCardString)
+	print('\nComputer:', compCardString)
 	print('Player 1:', playerCardString)
 	
     # Determine the winner of the hand
@@ -131,7 +130,7 @@ def playHand(playerCard, compCard, playerCardCollection, compCardCollection, pCa
 		return playerCardCollection, compCardCollection
 	else:
 		# Need to figure out how to handle ties. 
-		tieCards = 'true'
+		print('\nWar!')
 	time.sleep(2)
 		
 	
