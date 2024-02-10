@@ -84,6 +84,49 @@ def dealCards():
 	compCards = deck[half_size:]
 	return playerCards, compCards
 	
+def cardWar(cardsToWin, playerCardCollection, compCardCollection):
+	i = 0
+	while i < 3:
+		playerCardToDisplay = playerCardCollection.pop(i)
+		playerCardString = ''.join(str(card) for card in playerCardToDisplay)
+		compCardToDisplay = compCardCollection.pop(i)
+		cardsToWin.append(compCardToDisplay)
+		cardsToWin.append(playerCardToDisplay)
+		compCardString = ''.join(str(card) for card in compCardToDisplay)
+		print('Computer burn card:', compCardString)
+		print('Player burn card  :', playerCardString)
+		i = i + 1
+	finalPlayerWarCard = playerCardCollection.pop(0)
+	cardsToWin.append(finalPlayerWarCard)
+	finalPlayerWarCardToDisplay = ''.join(str(card) for card in finalPlayerWarCard)
+	finalCompWarCard = compCardCollection.pop(0)
+	cardsToWin.append(finalCompWarCard)
+	finalCompWarCardToDisplay = ''.join(str(card) for card in finalCompWarCard)
+
+	print('Time for War!')
+	time.sleep(1)
+	print('\n3')
+	time.sleep(1)
+	print('2')
+	time.sleep(1)
+	print('1')
+	time.sleep(1)
+	tryFlip = 'true'
+	while tryFlip == 'true':
+		flip = input('\nHit f to flip!\n')
+		if flip == 'exit':
+			quit()
+		elif flip == 'f':
+			tryFlip == 'false'
+			break
+	
+	# Display each players card.
+	print('\nComputer:', finalCompWarCardToDisplay)
+	print('Player 1:', finalPlayerWarCardToDisplay)
+	time.sleep(4)
+	warResult = compareCards(finalPlayerWarCard, finalCompWarCard)
+	
+	return warResult, cardsToWin, playerCardCollection, compCardCollection
 
 def playHand(playerCard, compCard, playerCardCollection, compCardCollection, pCardCount, cCardCount):
 
@@ -131,7 +174,22 @@ def playHand(playerCard, compCard, playerCardCollection, compCardCollection, pCa
 	else:
 		# Need to figure out how to handle ties. 
 		print('\nWar!')
-	time.sleep(2)
+		print('------------------------------------')
+		cardsToWin = [playerCard, compCard]
+		warResult, cardsToWin, playerCardCollection, compCardCollection = cardWar(cardsToWin, playerCardCollection, compCardCollection)
+		totalCardsWon = len(cardsToWin)
+		if warResult == 'playerWinner':
+			for card in cardsToWin:
+				playerCardCollection.append(card)
+			print('You won the War! You gained', totalCardsWon,'total cards!')
+			print('------------------------------------')
+			return playerCardCollection, compCardCollection
+		else:
+			for card in cardsToWin:
+				compCardCollection.append(card)
+			print('You lost the War. You lost', totalCardsWon,'total cards.')
+			print('------------------------------------')
+			return playerCardCollection, compCardCollection
 		
 	
 def playGame():
